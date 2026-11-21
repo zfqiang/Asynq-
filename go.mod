@@ -2,8 +2,6 @@ module asynq_demo
 
 go 1.26.10
 
-replace github.com/hibiken/asynqmon => ./third_party/asynqmon
-
 require (
 	github.com/google/uuid v1.6.0
 	github.com/hibiken/asynq v0.26.0
