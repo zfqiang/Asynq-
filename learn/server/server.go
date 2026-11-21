@@ -1,7 +1,6 @@
 package main
 
 import (
-	"asynq_demo/common"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -12,7 +11,6 @@ import (
 
 	"github.com/hibiken/asynq"
 	"github.com/hibiken/asynqmon"
-	"go.uber.org/zap"
 )
 
 // 任务处理器：处理发送邮件逻辑
@@ -86,16 +84,16 @@ func main() {
 	go func() {
 		// 初始化Asynq Web监控
 		mon := asynqmon.New(asynqmon.Options{
-			RootPath:     "/mon",
+			RootPath:     "/monitor",
 			RedisConnOpt: asynq.RedisClientOpt{Addr: "127.0.0.1:6379"},
 		})
 		mux := http.NewServeMux()
-		mux.Handle("/mon/", mon)
+		mux.Handle("/monitor/", mon)
 
-		common.Logger.Info("监控服务启动在 :8080")
-		common.Logger.Info("Web监控地址: http://localhost:8080/mon")
+		fmt.Println("监控服务启动在 :8080")
+		fmt.Println("Web监控地址: http://localhost:8080/monitor/")
 		if err := http.ListenAndServe(":8080", mux); err != nil {
-			common.Logger.Fatal("监控服务启动失败", zap.Error(err))
+			log.Fatalf("监控服务启动失败 %v", err)
 		}
 	}()
 
